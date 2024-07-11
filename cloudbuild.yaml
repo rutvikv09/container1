@@ -26,7 +26,7 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'us-central1-docker.pkg.dev/Cloud/container-repository/container1:late'
+      - 'us-central1-docker.pkg.dev/tranquil-buffer-429021-s5/container-repository/container1:late'
       - '.'
 
   # Step 4: Push the Docker image to Artifact Registry
