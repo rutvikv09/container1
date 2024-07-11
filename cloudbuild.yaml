@@ -1,0 +1,59 @@
+# Global options for the build
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  # Step 1: Build the JAR file using Maven
+  - name: 'maven:3.8.5-openjdk-17'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Building the JAR file..."
+        mvn clean package -DskipTests
+
+  # Step 2: Authenticate Docker with gcloud
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Authenticating Docker with gcloud..."
+        gcloud auth configure-docker --quiet
+
+  # Step 3: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/Cloud/container-repository/container1:late'
+      - '.'
+
+  # Step 4: Push the Docker image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/tranquil-buffer-429021-s5/container-repository/container1:late'
+
+  # Step 5: Configure kubectl with GKE credentials
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Configuring kubectl with GKE credentials..."
+        gcloud container clusters get-credentials cluster-1 --zone southamerica-west1-b --project tranquil-buffer-429021-s5
+
+  # Step 6: Deploy the Docker image to GKE
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Deploying the Docker image to GKE..."
+        kubectl get deployment container1-deployment || kubectl apply -f deployment-container1.yaml
+        kubectl set image deployment/container1-deployment container1=us-central1-docker.pkg.dev/tranquil-buffer-429021-s5/container-repository/container1:late
+        kubectl rollout status deployment/container1-deployment
+
+images:
+  - 'us-central1-docker.pkg.dev/tranquil-buffer-429021-s5/container-repository/container1:late'
