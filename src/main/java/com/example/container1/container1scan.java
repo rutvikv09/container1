@@ -104,8 +104,7 @@ public class container1scan {
                 System.out.println("the line "+ line);
                 String[] parts = line.split(",");
                 System.out.println("the line parts: " + parts);
-                //test2
-                //test
+
                 System.out.println("the length of the line parts: " + parts.length);
 
                 if (parts.length != 2) {
@@ -124,30 +123,4 @@ public class container1scan {
     }
 }
 
-
-
-
-
- /*   private boolean scanFile(Map<Object, Object> input, Map<String, Object> output) {
-        String fileName = (String) input.get("file");
-        String filePath = FILE_PATH + "/" + fileName;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length != 2) {
-                    output.put("file", fileName);
-                    output.put("error", "Input file not in CSV format.");
-                    return false;
-                }
-            }
-        } catch (IOException e) {
-            output.put("file", fileName);
-            output.put("error", "Error reading file.");
-            return false;
-        }
-
-        return true;
-    }*/
 

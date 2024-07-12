@@ -53,7 +53,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: standard  # Specifies the storage class name to use
+  storageClassName: standard
 
 
 
