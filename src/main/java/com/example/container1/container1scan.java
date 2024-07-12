@@ -105,6 +105,7 @@ public class container1scan {
                 String[] parts = line.split(",");
                 System.out.println("the line parts: " + parts);
                 //test2
+                //test
                 System.out.println("the length of the line parts: " + parts.length);
 
                 if (parts.length != 2) {
