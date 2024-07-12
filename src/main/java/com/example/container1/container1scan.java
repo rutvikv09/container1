@@ -106,6 +106,7 @@ public class container1scan {
                 System.out.println("the line parts: " + parts);
 
                 System.out.println("the length of the line parts: " + parts.length);
+                // container1
 
                 if (parts.length != 2) {
                     output.put("file", fileName);
